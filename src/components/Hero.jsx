@@ -1,13 +1,14 @@
 import Spline from '@splinetool/react-spline'
 import { motion } from 'framer-motion'
 import SpeedLines from './SpeedLines'
-import ParallaxCars from './ParallaxCars'
 import GlowTrails from './GlowTrails'
+import ExplodedCar from './ExplodedCar'
 
 export default function Hero() {
   return (
     <section id="home" className="relative h-[100svh] w-full overflow-hidden bg-black">
       <div className="absolute inset-0">
+        {/* Keep Spline background for depth; switch the foreground to exploded parts */}
         <Spline scene="https://prod.spline.design/NoYj4XN8s0IlixJM/scene.splinecode" style={{ width: '100%', height: '100%' }} />
       </div>
 
@@ -17,7 +18,8 @@ export default function Hero() {
 
       {/* motion layers */}
       <GlowTrails count={7} />
-      <ParallaxCars />
+      {/* Foreground exploded car parts */}
+      <ExplodedCar />
       <SpeedLines density={14} />
 
       <div className="relative z-10 max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
