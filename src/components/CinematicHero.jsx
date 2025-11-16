@@ -1,9 +1,13 @@
 import React, { useMemo, useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import ExplodedCar from './ExplodedCar'
+import HoverParts from './HoverParts'
 
-// Cinematic video hero that plays pre-rendered 3D segments if URLs are provided via env.
-// Segments supported (60fps, 16:9): rotate, explode, engine, suspension, reassembly
+// Cinematic hero with a REAL car image as the primary background.
+// Optional pre-rendered 3D video segments can play above the image if provided via env.
+// Provide your own high-res transparent or regular car image using VITE_HERO_CAR_IMAGE.
+// If none is provided, a safe placeholder image will be used.
+//
+// Supported segments (60fps, 16:9): rotate, explode, engine, suspension, reassembly
 // Env keys (mp4/webm recommended):
 // - VITE_SEG_ROTATE_MP4 / VITE_SEG_ROTATE_WEBM
 // - VITE_SEG_EXPLODE_MP4 / VITE_SEG_EXPLODE_WEBM
@@ -22,6 +26,9 @@ const titleMap = {
 
 export default function CinematicHero() {
   const alpha = (import.meta.env.VITE_VIDEO_ALPHA || '').toString().toLowerCase() === 'true'
+
+  const carImage = import.meta.env.VITE_HERO_CAR_IMAGE ||
+    'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1920&auto=format&fit=crop'
 
   const segments = useMemo(() => {
     const get = (key) => import.meta.env[key]
@@ -43,12 +50,9 @@ export default function CinematicHero() {
   const hasAny = segments.length > 0
 
   useEffect(() => {
-    // Autoplay the first available segment if any
     if (hasAny && videoRef.current) {
       videoRef.current.currentTime = 0
-      const play = async () => {
-        try { await videoRef.current.play() } catch (_) {}
-      }
+      const play = async () => { try { await videoRef.current.play() } catch (_) {} }
       play()
     }
   }, [hasAny, activeIndex])
@@ -57,22 +61,30 @@ export default function CinematicHero() {
 
   return (
     <section aria-label="Cinematic 3D Hero" className="relative h-[100svh] w-full overflow-hidden">
-      {/* Background: pure black with subtle vignette gradient */}
+      {/* Base background */}
       <div className="absolute inset-0 bg-black" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.04),rgba(0,0,0,0.6))]" />
 
-      {/* Fallback/background: Exploded white SUV as persistent background */}
-      <div className="absolute inset-0">
-        <ExplodedCar />
-      </div>
+      {/* Real car image as primary visual */}
+      <motion.img
+        key={carImage}
+        src={carImage}
+        alt="Innova SUV" 
+        initial={{ scale: 1.06, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.9, ease: 'easeOut' }}
+        className="absolute inset-0 w-full h-full object-cover object-center opacity-90"
+      />
 
-      {/* Video layer (only if segments provided) */}
+      {/* Subtle vignette for contrast */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03),rgba(0,0,0,0.7))]" />
+
+      {/* Optional video layer on top of the image (if provided) */}
       {hasAny && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="absolute inset-0 flex items-center justify-center">
           <video
             key={active.key}
             ref={videoRef}
-            className={`w-full h-full object-contain ${alpha ? 'mix-blend-normal' : ''}`}
+            className={`w-full h-full ${alpha ? 'object-contain mix-blend-normal' : 'object-cover'}`}
             playsInline
             muted
             loop
@@ -83,6 +95,9 @@ export default function CinematicHero() {
           </video>
         </motion.div>
       )}
+
+      {/* Hovering parts near the car */}
+      <HoverParts />
 
       {/* Top/bottom gradients for UI readability */}
       <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/60 to-transparent" />
