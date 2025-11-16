@@ -1,4 +1,3 @@
-import Spline from '@splinetool/react-spline'
 import { motion } from 'framer-motion'
 import SpeedLines from './SpeedLines'
 import GlowTrails from './GlowTrails'
@@ -7,10 +6,7 @@ import ExplodedCar from './ExplodedCar'
 export default function Hero() {
   return (
     <section id="home" className="relative h-[100svh] w-full overflow-hidden bg-black">
-      <div className="absolute inset-0">
-        {/* Keep Spline background for depth; switch the foreground to exploded parts */}
-        <Spline scene="https://prod.spline.design/NoYj4XN8s0IlixJM/scene.splinecode" style={{ width: '100%', height: '100%' }} />
-      </div>
+      {/* Removed 3D running car background for a clean focus on the white SUV exploded view */}
 
       {/* cinematic gradient overlays */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/60 to-black" />
@@ -18,7 +14,7 @@ export default function Hero() {
 
       {/* motion layers */}
       <GlowTrails count={7} />
-      {/* Foreground exploded car parts */}
+      {/* Foreground exploded white SUV parts */}
       <ExplodedCar />
       <SpeedLines density={14} />
 
