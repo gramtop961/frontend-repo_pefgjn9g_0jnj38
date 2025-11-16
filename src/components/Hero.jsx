@@ -1,5 +1,8 @@
 import Spline from '@splinetool/react-spline'
 import { motion } from 'framer-motion'
+import SpeedLines from './SpeedLines'
+import ParallaxCars from './ParallaxCars'
+import GlowTrails from './GlowTrails'
 
 export default function Hero() {
   return (
@@ -8,7 +11,14 @@ export default function Hero() {
         <Spline scene="https://prod.spline.design/NoYj4XN8s0IlixJM/scene.splinecode" style={{ width: '100%', height: '100%' }} />
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black pointer-events-none" />
+      {/* cinematic gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/60 to-black" />
+      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 to-transparent" />
+
+      {/* motion layers */}
+      <GlowTrails count={7} />
+      <ParallaxCars />
+      <SpeedLines density={14} />
 
       <div className="relative z-10 max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
         <div className="max-w-3xl text-left">

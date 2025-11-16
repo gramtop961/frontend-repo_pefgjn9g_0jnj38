@@ -44,3 +44,21 @@
     --tw-exit-translate-y: initial;
   }
 }
+
+/* Keyframes for added motion effects */
+@keyframes speedline {
+  0% { transform: translateX(0) rotate(12deg); opacity: 0; }
+  5% { opacity: 1; }
+  60% { opacity: 1; }
+  100% { transform: translateX(160%) rotate(12deg); opacity: 0; }
+}
+
+@keyframes floaty {
+  0% { transform: translate3d(0,0,0) scale(1); }
+  100% { transform: translate3d(0,-10px,0) scale(1.06); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 rgba(123, 30, 30, 0); }
+  50% { box-shadow: 0 0 24px rgba(123, 30, 30, 0.35); }
+}
