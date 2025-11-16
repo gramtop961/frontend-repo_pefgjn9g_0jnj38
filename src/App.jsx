@@ -1,5 +1,5 @@
 import Navbar from './components/Navbar'
-import Hero from './components/Hero'
+import CinematicHero from './components/CinematicHero'
 import About from './components/About'
 import Products from './components/Products'
 import Industries from './components/Industries'
@@ -13,7 +13,7 @@ function App() {
     <div className="bg-black text-white">
       <Navbar />
       <main>
-        <Hero />
+        <CinematicHero />
         <About />
         <Products />
         <Industries />
